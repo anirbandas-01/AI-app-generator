@@ -6,6 +6,9 @@ import api from "../services/api";
 import Navbar from "../components/Navbar";
 import DynamicForm from "../components/DynamicForm";
 import DynamicTable from "../components/DynamicTable";
+import CSVUpload from "../components/CSVUpload";
+
+
 
 function DynamicApp() {
 
@@ -94,6 +97,11 @@ function DynamicApp() {
         <h1 className="text-3xl font-bold mb-6">
           {config?.name}
         </h1>
+        
+        <CSVUpload
+          appId={id}
+          onUploadSuccess={fetchRecords}
+        />
 
         {/* Dynamic Form */}
         <DynamicForm
