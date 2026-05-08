@@ -154,8 +154,6 @@ function Dashboard() {
 
         </div>
 
-        {/* SECTION HEADER */}
-
         <div className="flex justify-between items-end mt-14 mb-8">
 
           <div>
@@ -171,8 +169,6 @@ function Dashboard() {
           </div>
 
         </div>
-
-        {/* LOADING */}
 
         {loading ? (
 
@@ -218,7 +214,7 @@ function Dashboard() {
 
                   <div className="w-14 h-14 rounded-2xl bg-[#BBD5DA] flex items-center justify-center text-xl">
 
-                    🚀
+                    logo
 
                   </div>
 
@@ -254,10 +250,17 @@ function Dashboard() {
                   <p>
                     Dynamic Forms Enabled
                   </p>
-
+                  
+                  <p>
+                  Created:{" "}
+                  {
+                    app.created_at
+                      ? new Date(app.created_at)
+                          .toLocaleDateString()
+                      : "N/A"
+                  }
+                </p>
                 </div>
-
-                {/* ACTIONS */}
 
                 <div className="flex gap-3 mt-8">
 
