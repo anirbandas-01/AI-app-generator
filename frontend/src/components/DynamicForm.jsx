@@ -3,6 +3,7 @@ import { useState } from "react";
 function DynamicForm({ fields, onSubmit }) {
 
   const [formData, setFormData] = useState({});
+  const [saving, setSaving] = useState(false);
 
   const handleChange = (
     fieldName,
@@ -15,16 +16,27 @@ function DynamicForm({ fields, onSubmit }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
-    onSubmit(formData);
+    try {
+      setSaving (true);
 
-    setFormData({});
+      await onSubmit(formData);
+
+      setFormData({});
+
+    } catch (error) {
+      
+      console.log(error);
+    
+    }finally {
+      setSaving(false);
+    }
   };
 
-  // fallback input type
+  
   const getInputType = (type) => {
 
     const supported = [
@@ -88,9 +100,14 @@ function DynamicForm({ fields, onSubmit }) {
         )}
 
         <button
-          className="bg-black text-white px-4 py-2 rounded"
-        >
-          Save Data
+            disabled={saving}
+            className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
+          >
+            {
+              saving
+                ? "Saving..."
+                : "Save Data"
+            }
         </button>
 
       </form>

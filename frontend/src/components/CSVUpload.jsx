@@ -1,17 +1,24 @@
 import Papa from "papaparse";
+import { useState } from "react";
 
 import api from "../services/api";
 
 function CSVUpload({
   appId,
-  onUploadSuccess
+  onUploadSuccess,
+  fields
 }) {
+  const [uploading, setUploading] = useState(false);
 
   const handleFileUpload = (e) => {
 
     const file = e.target.files[0];
 
-    if (!file) return;
+    if (!file) {
+      return alert("no file selected");
+    }
+    
+    setUploading(true);
 
     Papa.parse(file, {
 
@@ -25,7 +32,37 @@ function CSVUpload({
 
           const rows = results.data;
 
-          // upload each row
+          if(rows.length === 0) {
+            setUploading(false);
+
+            return alert(
+              "csv file is empty"
+            );
+          }
+
+           const csvHeaders =
+            Object.keys(rows[0]);
+
+          const requiredFields =
+            fields.map(
+              (field) => field.name
+            );
+
+          const missingFields =
+            requiredFields.filter(
+              (field) =>
+                !csvHeaders.includes(field)
+            );
+
+          if (missingFields.length > 0) {
+
+            setUploading(false);
+
+            return alert(
+              `Missing fields: ${missingFields.join(", ")}`
+            );
+          }
+
           for (const row of rows) {
 
             await api.post(
@@ -45,9 +82,15 @@ function CSVUpload({
 
           alert("CSV upload failed");
 
+        } finally {
+          setUploading(false);
         }
 
       },
+      error: () => {
+        setUploading(false);
+        alert("Invalid csv file");
+      }
 
     });
 
@@ -65,7 +108,15 @@ function CSVUpload({
         accept=".csv"
         onChange={handleFileUpload}
       />
-
+      
+       {
+        uploading && (
+          <p className="mt-3 text-blue-500">
+            Uploading CSV...
+          </p>
+        )
+      }
+      
     </div>
   );
 }
