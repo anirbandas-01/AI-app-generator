@@ -56,3 +56,54 @@ export const getData = async (req, res) => {
         });
     }
 };
+
+export const bulkInsertData = async (req, res) => {
+  try {
+    const { appId } = req.params;
+    const { rows } = req.body;
+
+    if (!rows || rows.length === 0) {
+      return res.status(400).json({
+        error: "No data provided"
+      });
+    }
+
+    const formatted = rows.map((row) => ({
+      app_id: appId,
+      data: row
+    }));
+
+    const { error } = await supabase
+      .from("app_data")
+      .insert(formatted);
+
+    if (error) {
+      return res.status(400).json({
+        error: error.message
+      });
+    }
+    
+    const { data } = await supabase
+      .from("apps")
+      .select("csv_uploads")
+      .eq("id", appId)
+      .single();
+
+    await supabase
+      .from("apps")
+      .update({
+        csv_uploads: (data.csv_uploads || 0) + 1
+      })
+      .eq("id", appId);
+      
+    res.json({
+      success: true,
+      inserted: rows.length
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+};

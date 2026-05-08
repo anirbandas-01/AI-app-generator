@@ -146,10 +146,12 @@ function Dashboard() {
               CSV Uploads
             </p>
 
-            <h2 className="text-4xl font-bold text-[#2B2B2B] mt-3">
-              12
-            </h2>
-
+              <h2 className="text-4xl font-bold text-[#2B2B2B] mt-3">
+                {apps.reduce(
+                  (total, app) => total + (app.csv_uploads || 0),
+                  0
+                )}
+              </h2>
           </div>
 
         </div>

@@ -63,14 +63,11 @@ function CSVUpload({
             );
           }
 
-          for (const row of rows) {
-
             await api.post(
-              `/data/${appId}`,
-              row
+              `/data/bulk/${appId}`,{
+              rows
+             }
             );
-
-          }
 
           alert("CSV uploaded successfully");
 
