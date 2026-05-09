@@ -6,7 +6,7 @@ function InstallPrompt() {
 
   useEffect(() => {
 
-  // app already installed
+  
   if (window.matchMedia('(display-mode: standalone)').matches) {
     return;
   }
@@ -78,7 +78,7 @@ function InstallPrompt() {
       const touchEnd = endEvent.changedTouches[0].clientX;
       const diff = touchStart - touchEnd;
       
-      // Swipe left or right more than 100px
+      
       if (Math.abs(diff) > 100) {
         handleDismiss();
       }
@@ -98,20 +98,20 @@ function InstallPrompt() {
     >
       <div className="bg-gradient-to-r from-[#2F3645] to-[#3d4554] text-white rounded-2xl shadow-2xl p-4 border border-white/10">
         <div className="flex items-center gap-4">
-          {/* App Icon */}
+          
           <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
           </div>
 
-          {/* Content */}
+          
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-sm">Install Dynamic Studio</h3>
             <p className="text-xs text-white/80 mt-0.5">Quick access from your home screen</p>
           </div>
 
-          {/* Buttons */}
+          
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={handleInstall}
@@ -131,7 +131,7 @@ function InstallPrompt() {
           </div>
         </div>
 
-        {/* Swipe indicator */}
+    
         <div className="mt-2 flex justify-center">
           <div className="w-12 h-1 bg-white/20 rounded-full"></div>
         </div>
