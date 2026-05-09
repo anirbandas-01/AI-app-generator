@@ -11,12 +11,14 @@ import CreateApp from "./pages/CreateApp";
 import DynamicApp from "./pages/DynamicApp";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import InstallPrompt from "./components/InstallPrompt";
 
 function App() {
 
   return (
     <BrowserRouter>
-
+     
+      <InstallPrompt />
       <Routes>
 
         <Route path="/" element={<Login />} />
